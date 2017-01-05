@@ -7,7 +7,7 @@ public class Regle{
     public Regle()
     {}
     
-    public void setIntersection(Int nb)
+    public void setIntersection(int nb)
     {
 	this.intersection = nb;
     }

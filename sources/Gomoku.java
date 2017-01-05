@@ -1,5 +1,7 @@
 import javax.swing.*;
 import gui.*;
+import jeu.*;
+import regles.*;
 public class Gomoku extends JFrame {
     
     
@@ -9,10 +11,13 @@ public class Gomoku extends JFrame {
     }
 
     private Plateau  plateau;
+    private Regle regle = new Regle();
+    private int inter = regle.getIntersection();
 
     public Gomoku(){
 	super("GomokuMT");
 	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	plateau = new Plateau();
+	Plateau plateau = new Plateau();
+	this.add(plateau);
     }
 }

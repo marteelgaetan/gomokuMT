@@ -2,25 +2,28 @@ package gui;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import regles.*;
 
 public class Plateau extends JPanel{
     private int pions[][];
     private int tourDeJeu;
-
+    private Regle regle = new Regle();
+    private int inter = regle.getIntersection();
+    
     public Plateau(){
-       	pions = new int[11][11];
+       	pions = new int[inter][inter];
 	tourDeJeu = 1;
 	this.addMouseListener(new PlateauListener());
-	for(int i = 0; i < 11; i++){
-	    for(int j = 0;j < 11; j++){
+	for(int i = 0; i < inter; i++){
+	    for(int j = 0;j <inter; j++){
 		pions[i][j] = 0;
 	    }
 	}
     }
 
     public boolean plein(){
-        for(int i = 0; i < 11; i++){
-	    for(int j = 0;j < 11; j++){
+        for(int i = 0; i < inter; i++){
+	    for(int j = 0;j < inter; j++){
 		if(pions[i][j] == 0){
 		    return false;
 		}
@@ -30,8 +33,8 @@ public class Plateau extends JPanel{
     }
 
     public boolean vide(){
-	for(int i = 0; i < 11; i++){
-	    for(int j = 0;j < 11; j++){
+	for(int i = 0; i < inter; i++){
+	    for(int j = 0;j < inter; j++){
 		if(pions[i][j] != 0){
 		    return false;
 		}
@@ -41,8 +44,8 @@ public class Plateau extends JPanel{
     }
 
     public boolean gagner(){
-	for(int i = 0; i < 11; i++){
-	    for(int j = 0;j < 11; j++){
+	for(int i = 0; i < inter; i++){
+	    for(int j = 0;j <inter; j++){
 		if(verificationHorizontale() || verificationVerticale() || verificationDiagB() || verificationDiagH()){
 		    System.out.println("Win");
 		    return true;		    
@@ -58,7 +61,7 @@ public class Plateau extends JPanel{
 
 	for (int row = 0; row < pions.length; row++) {
 	    for (int column = 0; column < pions[row].length; column++) {
-		if (pions[column][row] != 0 && count < 5)
+		if (pions[column][row] != 0)
 		    count++;
 		else if(count == 5){
 		    isWinner = true;
@@ -202,16 +205,16 @@ public class Plateau extends JPanel{
 
 	int marge = 30;
 	
-	for(int i = 0; i < 10; i++){
-	    for(int j = 0;j < 10; j++){
+	for(int i = 1; i < inter; i++){
+	    for(int j = 1;j < inter; j++){
 		g.drawRect(marge+i*40,marge+j*40,40,40);
 	    }
 	}
 
 	JPanel pnlButton = new JPanel();
 	
-        for(int i = 0; i < 11; i++){
-	    for(int j = 0;j < 11; j++){
+        for(int i = 0; i < inter; i++){
+	    for(int j = 0;j < inter; j++){
 		if(pions[i][j]==1){
 		    g.setColor(Color.BLACK);
 		    g.fillOval(marge-15+i*40,marge-15+j*40,30,30);
@@ -253,8 +256,8 @@ public class Plateau extends JPanel{
 	JFrame frame = new JFrame();
 	frame.getContentPane().add(new Plateau());
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	frame.setSize(500,500);
+	frame.setSize(900,900);
 	frame.setVisible(true);
 	frame.setBackground(Color.ORANGE); 
-    }
+	}
 }
