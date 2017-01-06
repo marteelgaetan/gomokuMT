@@ -44,6 +44,13 @@ public class Plateau extends JPanel{
     }
 
     public boolean gagner(){
+	for(int i=0;i<pions.length;i++){
+	    for(int j=0;j<pions.length;j++){
+		System.out.print(pions[i][j] + "  ");
+	    }
+	    System.out.println(" ");
+	}
+	System.out.println(tourDeJeu);
 	for(int i = 0; i < inter; i++){
 	    for(int j = 0;j <inter; j++){
 		if(verificationHorizontale() || verificationVerticale() || verificationDiagB() || verificationDiagH()){
@@ -58,10 +65,14 @@ public class Plateau extends JPanel{
     public boolean verificationHorizontale(){
 	int count = 0;
 	boolean isWinner = false;
+	int joueur = 0;
 
 	for (int row = 0; row < pions.length; row++) {
 	    for (int column = 0; column < pions[row].length; column++) {
-		if (pions[column][row] != 0)
+		if(joueur == 0 && pions[column][row] != 0){
+			joueur = pions[column][row];
+		}
+		if(pions[column][row] != 0 && pions[column][row]==joueur)
 		    count++;
 		else if(count == 5){
 		    isWinner = true;
@@ -70,6 +81,7 @@ public class Plateau extends JPanel{
 		else{
 		    isWinner = false;
 		    count = 0;
+		    joueur=pions[column][row];
 		}
 	    }
 	    if(isWinner){
@@ -131,11 +143,16 @@ public class Plateau extends JPanel{
     public boolean verificationVerticale() {
 	int count = 0;
 	boolean isWinner = false;
+	int joueur = 0;
 
 	for (int row = 0; row < pions.length; row++) {
 	    for (int column = 0; column < pions[row].length; column++) {
-		if (pions[row][column] != 0 && count < 5)
+		if(joueur == 0 && pions[row][column] != 0){
+		    joueur = pions[row][column];
+		}
+		if(pions[row][column] != 0 && pions[row][column] == joueur){
 		    count++;
+		}
 		else if(count == 5){
 		    isWinner = true;
 		    break;
@@ -143,6 +160,7 @@ public class Plateau extends JPanel{
 		else{
 		    isWinner = false;
 		    count = 0;
+		    joueur = pions[row][column];
 		}
 	    }
 	    if(isWinner){
@@ -172,7 +190,7 @@ public class Plateau extends JPanel{
 		    }
 		    //System.out.println(" dec : " + dec);
 		    if(column+d-dec < pions.length && row-d-dec > 0){
-			if(pions[row-d-dec][column+d+dec] != 0 && count < pions.length){
+			if(pions[row-d-dec][column+d-dec] != 0 && count < pions.length){
 			    count++;
 			}
 			else{
@@ -217,11 +235,11 @@ public class Plateau extends JPanel{
 	    for(int j = 0;j < inter; j++){
 		if(pions[i][j]==1){
 		    g.setColor(Color.BLACK);
-		    g.fillOval(marge-15+i*40,marge-15+j*40,30,30);
+		    g.fillOval(marge-15+(j+1)*40,marge-15+(i+1)*40,30,30);
 		}
 		if(pions[i][j]==2){
 		    g.setColor(Color.WHITE);
-		    g.fillOval(marge-15+i*40,marge-15+j*40,30,30);
+		    g.fillOval(marge-15+(j+1)*40,marge-15+(i+1)*40,30,30);
 		}
 	    }
 	}
@@ -234,13 +252,16 @@ public class Plateau extends JPanel{
 	    int x = (int) Math.round(getx);
 	    int y = (int) Math.round(gety);
 	    System.out.println("getX = " + x + " getY = " + y +" \n");
-	    if(pions[x][y]==0){
+	    if(pions[y-1+1][x-1+1] < pions.length && pions[y-1+1][x-1+1] > 0){
+		
+	    }
+	    if(pions[y-1][x-1]==0){
 		if(tourDeJeu%2==1){
-		    pions[x][y] = 1;
+		    pions[y-1][x-1] = 1;
 		    gagner();
 		}
 		else{
-		    pions[x][y] = 2;
+		    pions[y-1][x-1] = 2;
 		    gagner();
 		}
 		tourDeJeu++;
@@ -258,6 +279,6 @@ public class Plateau extends JPanel{
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	frame.setSize(900,900);
 	frame.setVisible(true);
-	frame.setBackground(Color.ORANGE); 
-	}
+	frame.setBackground(Color.ORANGE);
+    }
 }
